@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 export function UseLocalStorage<T>(item: string) {
-  const [value, setValue] = useState(
-    JSON.parse(localStorage.getItem(item) ?? "")
-  );
+  const cartStorage = JSON.parse(localStorage.getItem(item) ?? "");
+
+  const [value, setValue] = useState(cartStorage);
 
   const updateLocalStorage = (newValue: T) => {
     setValue(newValue);
