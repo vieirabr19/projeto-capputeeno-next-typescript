@@ -6,9 +6,21 @@ import { styled } from "styled-components";
 
 const ContainerCard = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr;
   gap: 30px;
   margin-top: 30px;
+
+  @media (min-width: ${(props) => props.theme.desktopBreakpoint768}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: ${(props) => props.theme.desktopBreakpoint1024}) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: ${(props) => props.theme.desktopBreakpoint1280}) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 `;
 
 export function ProductsList() {
