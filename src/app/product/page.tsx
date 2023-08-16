@@ -96,8 +96,6 @@ export default function Product({ searchParams }: ParamsProps) {
   const category = data?.category === "mugs" ? "Caneca" : "Camiseta";
   const price = formatterPrice(data?.price_in_cents ?? 0);
 
-  console.log(data);
-
   return (
     <DefaultPageLayout>
       <Container>

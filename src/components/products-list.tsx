@@ -34,6 +34,7 @@ export function ProductsList() {
           image={product.image_url}
           name={product.name}
           price={product.price_in_cents}
+          id={product.id}
         />
       ))}
     </ContainerCard>
