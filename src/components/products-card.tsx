@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
+import { styled } from "styled-components";
 
 import { formatterPrice } from "@/utils/formatter-price";
-import { styled } from "styled-components";
 
 const Card = styled.div`
   max-width: 500px;

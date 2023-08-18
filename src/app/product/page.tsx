@@ -1,11 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { styled } from "styled-components";
+
 import { BackButton } from "@/components/back-button";
 import { DefaultPageLayout } from "@/components/defaul-page-layout";
 import { CartIcon } from "@/components/icons/cart-icon";
 import { useProduct } from "@/hooks/useProduct";
 import { formatterPrice } from "@/utils/formatter-price";
-import { styled } from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -83,6 +85,7 @@ const Button = styled.button`
   svg {
     path {
       stroke: white;
+      // fill: white;
     }
   }
 `;
@@ -92,9 +95,35 @@ interface ParamsProps {
 }
 
 export default function Product({ searchParams }: ParamsProps) {
+  const router = useRouter();
   const { data } = useProduct(searchParams.id);
   const category = data?.category === "mugs" ? "Caneca" : "Camiseta";
   const price = formatterPrice(data?.price_in_cents ?? 0);
+
+  const handleAddToCart = () => {
+    router.push("cart");
+
+    const cartItems = localStorage.getItem("cart-items");
+    const newCart = { ...data, quantity: 1 };
+
+    if (cartItems) {
+      const arrCartItems = JSON.parse(cartItems);
+
+      const existingProductIndex = arrCartItems.findIndex(
+        (item: { id: string }) => item.id === searchParams.id
+      );
+
+      if (existingProductIndex != -1) {
+        arrCartItems[existingProductIndex].quantity += 1;
+      } else {
+        arrCartItems.push(newCart);
+      }
+
+      localStorage.setItem("cart-items", JSON.stringify(arrCartItems));
+    } else {
+      localStorage.setItem("cart-items", JSON.stringify([newCart]));
+    }
+  };
 
   return (
     <DefaultPageLayout>
@@ -114,7 +143,7 @@ export default function Product({ searchParams }: ParamsProps) {
               <h3>Descrição</h3>
               <p>{data?.description}</p>
             </div>
-            <Button>
+            <Button onClick={() => handleAddToCart()}>
               <CartIcon />
               Adicionar ao carrinho
             </Button>
