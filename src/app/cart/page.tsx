@@ -8,27 +8,36 @@ import { CartCard } from "@/components/cart-card";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { ProductInCart } from "@/types/product";
 import { formatterPrice } from "@/utils/formatter-price";
+import { CartOrderSummary } from "@/components/cart-order-summary";
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
   grid-gap: 30px;
+
+  @media (min-width: ${(props) => props.theme.desktopBreakpoint1024}) {
+    grid-template-columns: 2fr 1fr;
+  }
 `;
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 8px;
   color: var(--color-text-dark-two);
 
   h1 {
     font-size: 24px;
     font-weight: 500;
     text-transform: uppercase;
+    margin-top: 10px;
   }
+`;
 
-  p {
-    margin-bottom: 15px;
-  }
+const ListCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
 `;
 
 export default function Cart() {
@@ -47,6 +56,7 @@ export default function Cart() {
   };
 
   const cartTotal = formatterPrice(calculeteTotal(value));
+  const totalWithFee = formatterPrice(calculeteTotal(value) + 4000);
 
   const handleUpdateQuantity = (id: string, quantity: number) => {
     const newValue = value.map((item) => {
@@ -54,6 +64,11 @@ export default function Cart() {
       return { ...item, quantity: quantity };
     });
 
+    updateLocalStorage(newValue);
+  };
+
+  const handleDelete = (id: string) => {
+    const newValue = value.filter((item) => item.id !== id);
     updateLocalStorage(newValue);
   };
 
@@ -66,16 +81,19 @@ export default function Cart() {
           <p>
             Total ({value.length} produtos) <strong>{cartTotal}</strong>
           </p>
-          {value.map((product) => (
-            <CartCard
-              product={product}
-              key={product.id}
-              handleUpdateQuantity={handleUpdateQuantity}
-            />
-          ))}
+          <ListCard>
+            {value.map((product) => (
+              <CartCard
+                product={product}
+                key={product.id}
+                handleUpdateQuantity={handleUpdateQuantity}
+                handleDelete={handleDelete}
+              />
+            ))}
+          </ListCard>
         </Section>
 
-        <div>Right</div>
+        <CartOrderSummary subTotal={cartTotal} total={totalWithFee} />
       </Container>
     </DefaultPageLayout>
   );

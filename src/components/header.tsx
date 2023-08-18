@@ -6,13 +6,12 @@ import { Saira_Stencil_One } from "next/font/google";
 import { PrimaryInputWithSearchIcon } from "./primary-input";
 import { CartControl } from "./cart-control";
 import { useFilter } from "@/hooks/useFilter";
+import { useRouter } from "next/navigation";
 
 const sairaStencilOne = Saira_Stencil_One({
   weight: ["400"],
   subsets: ["latin"],
 });
-
-interface HeaderProps {}
 
 const TagHeader = styled.header`
   display: flex;
@@ -33,14 +32,22 @@ const Logo = styled.a`
   font-size: 40px;
   font-weight: 400;
   line-height: 150%;
+  cursor: pointer;
 `;
 
-export function Header(props: HeaderProps) {
+export function Header() {
+  const router = useRouter();
   const { search, setSearch } = useFilter();
+
+  const handleNavigate = () => {
+    router.push("/");
+  };
 
   return (
     <TagHeader>
-      <Logo className={sairaStencilOne.className}>capputeeno</Logo>
+      <Logo className={sairaStencilOne.className} onClick={handleNavigate}>
+        capputeeno
+      </Logo>
       <div>
         <PrimaryInputWithSearchIcon
           placeholder="Procurando por algo específico?"

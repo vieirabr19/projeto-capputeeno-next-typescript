@@ -32,11 +32,20 @@ const CardInfos = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
+
+    button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
   }
 
   p {
     font-size: 12px;
     font-weight: 400;
+    // max-height: 25%;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
   }
 
   div {
@@ -65,9 +74,14 @@ const CardInfos = styled.div`
 interface CartCardProps {
   product: ProductInCart;
   handleUpdateQuantity(id: string, quantity: number): void;
+  handleDelete(id: string): void;
 }
 
-export function CartCard({ product, handleUpdateQuantity }: CartCardProps) {
+export function CartCard({
+  product,
+  handleUpdateQuantity,
+  handleDelete,
+}: CartCardProps) {
   const handleUpdate = (event: ChangeEvent<HTMLSelectElement>) => {
     handleUpdateQuantity(product.id, Number(event.target.value));
   };
@@ -78,7 +92,9 @@ export function CartCard({ product, handleUpdateQuantity }: CartCardProps) {
       <CardInfos>
         <h2>
           {product.name}
-          <TrashIcon />
+          <button onClick={() => handleDelete(product.id)} aria-label="Deletar">
+            <TrashIcon />
+          </button>
         </h2>
         <p>{product.description}</p>
         <div>

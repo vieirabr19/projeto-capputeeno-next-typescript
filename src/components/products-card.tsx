@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { styled } from "styled-components";
 
 import { formatterPrice } from "@/utils/formatter-price";
+import { Divider } from "./divider";
 
 const Card = styled.div`
   max-width: 500px;
@@ -37,13 +38,6 @@ const CardInfos = styled.div`
     font-weight: 600;
     color: var(--color-shapes-dark);
   }
-
-  hr {
-    width: 100%;
-    height: 1px;
-    background-color: var(--color-shapes);
-    border: none;
-  }
 `;
 
 interface CardProps {
@@ -65,7 +59,7 @@ export function ProductsCard(props: CardProps) {
       <img src={props.image} alt={props.name} title={props.name} />
       <CardInfos>
         <h3>{props.name}</h3>
-        <hr />
+        <Divider />
         <p>{formatterPrice(props.price)}</p>
       </CardInfos>
     </Card>
