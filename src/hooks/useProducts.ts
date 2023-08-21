@@ -27,14 +27,15 @@ const fetcher = (query: string): AxiosPromise<ProductsFetchResponse> => {
 };
 
 export function useProducts() {
-  const { type, priority, search } = useFilter();
-  const query = mountQuery(type, priority);
+  const perPage = 12;
+  const { type, priority, search, page } = useFilter();
+  const query = mountQuery(type, priority, page, perPage);
 
   const searchDeferred = useDeferredValue(search);
 
   const { data } = useQuery({
     queryFn: () => fetcher(query),
-    queryKey: ["products", type, priority],
+    queryKey: ["products", type, priority, page],
     staleTime: 1000 * 60 * 1,
   });
 

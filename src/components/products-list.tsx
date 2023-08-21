@@ -8,7 +8,6 @@ const ContainerCard = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
-  margin-top: 30px;
 
   @media (min-width: ${(props) => props.theme.desktopBreakpoint768}) {
     grid-template-columns: repeat(2, 1fr);
